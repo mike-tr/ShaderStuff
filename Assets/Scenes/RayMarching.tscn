@@ -1,0 +1,117 @@
+[gd_scene load_steps=20 format=3 uid="uid://b5jams1k8lsu2"]
+
+[ext_resource type="Shader" uid="uid://dbsmbvbg7tbco" path="res://Assets/Shaders/RayMarchingT2.gdshader" id="1_wgwni"]
+[ext_resource type="Shader" uid="uid://dh7j5goy2uese" path="res://Assets/Shaders/HexGrid.gdshader" id="2_o5u23"]
+[ext_resource type="Script" uid="uid://cjw6c05xs5vas" path="res://Assets/Scripts/camera_3d.gd" id="3_euvp0"]
+[ext_resource type="Script" uid="uid://dd68yu0r5u6v8" path="res://Assets/Scenes/rain.gd" id="3_umeqo"]
+[ext_resource type="Shader" uid="uid://bqdoor6ucrtlk" path="res://Assets/Shaders/StaticMarching.gdshader" id="5_euvp0"]
+[ext_resource type="Shader" uid="uid://d4cmn7mvrjbdb" path="res://Assets/Shaders/shadeTest.gdshader" id="6_ttyy0"]
+[ext_resource type="Shader" uid="uid://dvh1652p54rbh" path="res://Assets/Shaders/Rain.gdshader" id="7_umeqo"]
+
+[sub_resource type="SphereMesh" id="SphereMesh_a202f"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_noarx"]
+shader = ExtResource("2_o5u23")
+shader_parameter/size = Vector2(32, 28)
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_ttyy0"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ji4is"]
+render_priority = 0
+shader = ExtResource("7_umeqo")
+shader_parameter/noise_tex = SubResource("NoiseTexture2D_ttyy0")
+shader_parameter/oscale = Vector3(1, 1, 1)
+shader_parameter/droplet_size = 0.5
+shader_parameter/droplet_frequency = 2.0
+shader_parameter/rain_speed = 0.0
+
+[sub_resource type="BoxMesh" id="BoxMesh_uhebu"]
+material = SubResource("ShaderMaterial_ji4is")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_euvp0"]
+render_priority = 0
+shader = ExtResource("1_wgwni")
+shader_parameter/oscale = Vector3(1, 1, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_ttyy0"]
+material = SubResource("ShaderMaterial_euvp0")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ttyy0"]
+render_priority = 0
+shader = ExtResource("5_euvp0")
+
+[sub_resource type="BoxMesh" id="BoxMesh_umeqo"]
+material = SubResource("ShaderMaterial_ttyy0")
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_umeqo"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_umeqo"]
+render_priority = 0
+shader = ExtResource("6_ttyy0")
+shader_parameter/noise_tex = SubResource("NoiseTexture2D_umeqo")
+
+[sub_resource type="BoxMesh" id="BoxMesh_ji4is"]
+material = SubResource("ShaderMaterial_umeqo")
+
+[node name="Node3D" type="Node3D"]
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.33404, 0, 0.372045, 0, 0.5, 0, -0.372045, 0, 0.33404, 0, 0, 0)
+visible = false
+mesh = SubResource("SphereMesh_a202f")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.866025, 0.5, 0, -0.5, 0.866025, -6.70962, 2.12815, 0)
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="DirectionalLight3D"]
+transform = Transform3D(-0.642788, 0.323744, -0.694272, 0, 0.906308, 0.422618, 0.766045, 0.271654, -0.582563, 0, 0, 0)
+light_color = Color(0.698039, 1, 1, 1)
+light_energy = 0.1
+light_indirect_energy = 0.0
+sky_mode = 1
+
+[node name="DirectionalLight3D2" type="DirectionalLight3D" parent="DirectionalLight3D"]
+transform = Transform3D(-0.642788, -0.323744, 0.694272, 0, 0.906308, 0.422618, -0.766044, 0.271654, -0.582563, 0, 0, 0)
+light_color = Color(0.698039, 1, 1, 1)
+light_energy = 0.1
+light_indirect_energy = 0.0
+sky_mode = 1
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+visible = false
+
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer"]
+material = SubResource("ShaderMaterial_noarx")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Rain" type="MeshInstance3D" parent="." node_paths=PackedStringArray("player")]
+transform = Transform3D(200, 0, 0, 0, 200, 0, 0, 0, 200, 0, 0, 4.19973)
+mesh = SubResource("BoxMesh_uhebu")
+script = ExtResource("3_umeqo")
+player = NodePath("../Player")
+
+[node name="Player" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 4.19973)
+script = ExtResource("3_euvp0")
+speedy = 9.0
+
+[node name="Camera3D" type="Camera3D" parent="Player"]
+rotation_order = 0
+
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="."]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, -1.04354, 0, 0)
+visible = false
+mesh = SubResource("BoxMesh_ttyy0")
+
+[node name="MeshInstance3D4" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.55129, 0, 0)
+visible = false
+mesh = SubResource("BoxMesh_umeqo")
+
+[node name="MeshInstance3D5" type="MeshInstance3D" parent="."]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, -3.56936, 1.19349, -6.83156)
+mesh = SubResource("BoxMesh_ji4is")

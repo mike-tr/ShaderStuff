@@ -1,0 +1,38 @@
+[gd_scene load_steps=6 format=3 uid="uid://c5g2i140cygkb"]
+
+[ext_resource type="Shader" uid="uid://dh7j5goy2uese" path="res://HexGrid.gdshader" id="1_67qno"]
+[ext_resource type="Script" uid="uid://cjw6c05xs5vas" path="res://camera_3d.gd" id="1_baamg"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_4xowi"]
+
+[sub_resource type="SphereMesh" id="SphereMesh_a202f"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_noarx"]
+shader = ExtResource("1_67qno")
+shader_parameter/size = Vector2(32, 28)
+
+[node name="Node3D" type="Node3D"]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("BoxMesh_4xowi")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.74632, 0, 0)
+mesh = SubResource("SphereMesh_a202f")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(0.834223, -0.301909, 0.461436, 0, 0.836803, 0.547505, -0.551427, -0.456741, 0.69808, 1.82494, 1.70274, 2.72471)
+script = ExtResource("1_baamg")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.528572, 0.848889, 0, -0.848889, 0.528572, -6.58236, 2.12815, 0)
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer"]
+material = SubResource("ShaderMaterial_noarx")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2

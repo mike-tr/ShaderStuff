@@ -1,0 +1,60 @@
+[gd_scene load_steps=7 format=3 uid="uid://c5g2i140cygkb"]
+
+[ext_resource type="Script" uid="uid://blfvm4pw5h35g" path="res://Assets/Scripts/compute_example.gd" id="1_6mpuy"]
+[ext_resource type="Shader" uid="uid://dh7j5goy2uese" path="res://Assets/Shaders/HexGrid.gdshader" id="1_57npl"]
+[ext_resource type="Script" uid="uid://cjw6c05xs5vas" path="res://Assets/Scripts/camera_3d.gd" id="2_6mpuy"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_4xowi"]
+
+[sub_resource type="SphereMesh" id="SphereMesh_a202f"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_noarx"]
+shader = ExtResource("1_57npl")
+shader_parameter/size = Vector2(32, 28)
+
+[node name="Node3D" type="Node3D"]
+script = ExtResource("1_6mpuy")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("BoxMesh_4xowi")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.74632, 0, 0)
+mesh = SubResource("SphereMesh_a202f")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.866025, 0.5, 0, -0.5, 0.866025, -6.70962, 2.12815, 0)
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="DirectionalLight3D"]
+transform = Transform3D(-0.642788, 0.323744, -0.694272, 0, 0.906308, 0.422618, 0.766045, 0.271654, -0.582563, 0, 0, 0)
+light_color = Color(0.698039, 1, 1, 1)
+light_energy = 0.1
+light_indirect_energy = 0.0
+sky_mode = 1
+
+[node name="DirectionalLight3D2" type="DirectionalLight3D" parent="DirectionalLight3D"]
+transform = Transform3D(-0.642788, -0.323744, 0.694272, 0, 0.906308, 0.422618, -0.766044, 0.271654, -0.582563, 0, 0, 0)
+light_color = Color(0.698039, 1, 1, 1)
+light_energy = 0.1
+light_indirect_energy = 0.0
+sky_mode = 1
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+visible = false
+
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer"]
+material = SubResource("ShaderMaterial_noarx")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Node3D" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 4.19973)
+script = ExtResource("2_6mpuy")
+speedx = 4.0
+speedy = 3.0
+
+[node name="Camera3D" type="Camera3D" parent="Node3D"]
+rotation_order = 0
